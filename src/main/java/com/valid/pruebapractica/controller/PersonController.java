@@ -10,19 +10,13 @@ import com.valid.pruebapractica.exception.ResourceNotFoundException;
 import com.valid.pruebapractica.repository.PersonRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.valid.pruebapractica.model.Personas;
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin(origins = "*")
 public class PersonController {
 
 	@Autowired
@@ -57,6 +51,12 @@ public class PersonController {
 		personas.setNombre( personasDetails.getNombre());
 		final Personas updatedPersonas = personRepository.save( personas );
 		return ResponseEntity.ok( updatedPersonas );
+	}
+
+	@PutMapping("/persona/procesados")
+	public ResponseEntity<String> updateProcess() {
+		personRepository.updateProcess();
+		return ResponseEntity.ok("process updated");
 	}
 
 	@DeleteMapping("/persona/{id}")

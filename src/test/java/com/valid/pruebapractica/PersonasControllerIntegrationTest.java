@@ -38,58 +38,58 @@ public class PersonasControllerIntegrationTest {
 	}
 
 	@Test
-	public void testGetAllEmployees() {
+	public void testGetAllPersonas() {
 		HttpHeaders headers = new HttpHeaders();
 		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 
-		ResponseEntity<String> response = restTemplate.exchange(getRootUrl() + "/employees",
+		ResponseEntity<String> response = restTemplate.exchange(getRootUrl() + "/persona",
 				HttpMethod.GET, entity, String.class);
 		
 		assertNotNull(response.getBody());
 	}
 
 	@Test
-	public void testGetEmployeeById() {
-		Personas personas = restTemplate.getForObject(getRootUrl() + "/employees/1", Personas.class);
-		System.out.println( personas.getNombre());
-		assertNotNull( personas );
+	public void testGetPersonasById() {
+		Personas persona = restTemplate.getForObject(getRootUrl() + "/persona/1", Personas.class);
+		System.out.println( persona.getNombre());
+		assertNotNull( persona );
 	}
 
 	@Test
-	public void testCreateEmployee() {
-		Personas personas = new Personas();
-		personas.setProcesado("admin@gmail.com");
-		personas.setNombre("admin");
-		personas.setApellido("admin");
+	public void testCreatePersonas() {
+		Personas persona = new Personas();
+		persona.setProcesado("false");
+		persona.setNombre("admin");
+		persona.setApellido("admin");
 
-		ResponseEntity<Personas> postResponse = restTemplate.postForEntity(getRootUrl() + "/employees", personas, Personas.class);
+		ResponseEntity<Personas> postResponse = restTemplate.postForEntity(getRootUrl() + "/persona", persona, Personas.class);
 		assertNotNull(postResponse);
 		assertNotNull(postResponse.getBody());
 	}
 
 	@Test
-	public void testUpdateEmployee() {
+	public void testUpdatePersonas() {
 		int id = 1;
-		Personas personas = restTemplate.getForObject(getRootUrl() + "/employees/" + id, Personas.class);
-		personas.setNombre("admin1");
-		personas.setApellido("admin2");
+		Personas persona = restTemplate.getForObject(getRootUrl() + "/persona/" + id, Personas.class);
+		persona.setNombre("Jeisson");
+		persona.setApellido("Ruiz");
 
-		restTemplate.put(getRootUrl() + "/employees/" + id, personas );
+		restTemplate.put(getRootUrl() + "/persona/" + id, persona );
 
-		Personas updatedPersonas = restTemplate.getForObject(getRootUrl() + "/employees/" + id, Personas.class);
+		Personas updatedPersonas = restTemplate.getForObject(getRootUrl() + "/persona/" + id, Personas.class);
 		assertNotNull( updatedPersonas );
 	}
 
 	@Test
-	public void testDeleteEmployee() {
+	public void testDeletePersonas() {
 		int id = 2;
-		Personas personas = restTemplate.getForObject(getRootUrl() + "/employees/" + id, Personas.class);
-		assertNotNull( personas );
+		Personas persona = restTemplate.getForObject(getRootUrl() + "/persona/" + id, Personas.class);
+		assertNotNull( persona );
 
-		restTemplate.delete(getRootUrl() + "/employees/" + id);
+		restTemplate.delete(getRootUrl() + "/persona/" + id);
 
 		try {
-			personas = restTemplate.getForObject(getRootUrl() + "/employees/" + id, Personas.class);
+			persona = restTemplate.getForObject(getRootUrl() + "/persona/" + id, Personas.class);
 		} catch (final HttpClientErrorException e) {
 			assertEquals(e.getStatusCode(), HttpStatus.NOT_FOUND);
 		}
